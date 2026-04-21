@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NorthCoast System — FICA Tip Credit Recovery</title>
+<title>FICA Tip Credit Calculator — NorthCoast System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -16,407 +16,115 @@
   --gold-pale: #fdf3e3;
   --red: #e05a3a;
   --gray-bg: #f0f2f6;
-  --gray-light: #e8eaf0;
   --white: #ffffff;
   --text-dark: #1a1a2e;
   --text-mid: #4a5568;
   --text-light: #8896a4;
   --border: #e2e6ed;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; }
+body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--gray-bg); line-height: 1.6; }
 
 /* NAV */
-nav {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 68px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.logo { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 20px; color: var(--navy); }
+nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.logo { font-weight: 600; font-size: 20px; color: var(--navy); }
 .logo span { color: var(--red); }
 .nav-right { font-size: 13px; color: var(--text-mid); }
 .nav-right strong { color: var(--navy); }
 
 /* HERO */
-.hero {
-  background: var(--gray-bg);
-  text-align: center;
-  padding: 72px 2rem 80px;
-}
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--gold);
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 13px;
-  color: var(--gold);
-  margin-bottom: 32px;
-  background: rgba(200,146,42,0.06);
-}
-.badge svg { width: 14px; height: 14px; }
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(36px, 6vw, 62px);
-  font-weight: 800;
-  line-height: 1.15;
-  color: var(--navy);
-  max-width: 720px;
-  margin: 0 auto 24px;
-}
-.hero h1 .red { color: var(--red); font-style: italic; }
+.hero { padding: 52px 2rem 56px; text-align: center; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5vw, 48px); font-weight: 800; color: var(--navy); margin-bottom: 8px; line-height: 1.2; }
 .hero h1 .gold { color: var(--gold); }
-.hero-sub {
-  font-size: 17px;
-  color: var(--text-mid);
-  max-width: 520px;
-  margin: 0 auto 32px;
-  line-height: 1.7;
-}
-.hero-sub strong { color: var(--text-dark); }
-.avg-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 24px;
-  font-size: 15px;
-  margin-bottom: 36px;
-  color: var(--text-mid);
-}
-.avg-box strong { color: var(--gold); }
-.avg-arrow { color: var(--gold); font-size: 18px; }
-.checks { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 40px; }
-.check-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  color: var(--text-mid);
-}
-.check-item .icon {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  border: 2px solid var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.check-item .icon svg { width: 11px; height: 11px; }
-.check-item strong { color: var(--text-dark); }
-.cta-btn {
-  display: inline-block;
-  background: var(--navy);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 16px 40px;
-  border-radius: 10px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: background .2s, transform .1s;
-}
-.cta-btn:hover { background: var(--navy-light); transform: translateY(-1px); }
+.hero .sub { font-size: 16px; color: var(--text-mid); margin-bottom: 32px; }
 
-/* WHY SECTION */
-.why-section {
-  padding: 80px 2rem;
-  background: var(--white);
-}
-.container { max-width: 1040px; margin: 0 auto; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
-.dark-card {
-  background: var(--navy);
-  border-radius: 16px;
-  padding: 40px 36px;
-  color: var(--white);
-}
-.dark-card .eyebrow {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 14px;
-}
-.dark-card h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 18px;
-}
-.dark-card p { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 24px; }
-.divider-line { border: none; border-top: 1px solid rgba(255,255,255,0.12); margin: 24px 0; }
-.big-pct { font-size: 48px; font-weight: 700; color: var(--gold); }
-.big-pct-label { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 2px; }
-.benefit-cards { display: flex; flex-direction: column; gap: 16px; }
-.benefit-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 22px 24px;
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-.benefit-icon {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  border: 1.5px solid var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  color: var(--gold);
-  font-size: 18px;
-}
-.benefit-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 5px; color: var(--text-dark); }
-.benefit-card p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
-
-/* HOW IT WORKS */
-.how-section {
-  padding: 80px 2rem;
-  background: var(--white);
-  text-align: center;
-}
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 10px;
-}
-.section-sub { font-size: 16px; color: var(--text-mid); margin-bottom: 52px; }
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-.step-num {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  border: 2px solid var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--gold);
-  margin: 0 auto 18px;
-}
-.step-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
-.step-desc { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
-
-/* CALCULATOR SECTION */
-.calc-section {
-  background: var(--gray-bg);
-  padding: 80px 2rem;
-}
-.calc-wrapper {
-  max-width: 680px;
-  margin: 0 auto;
-}
-.calc-header { text-align: center; margin-bottom: 40px; }
-.calc-card {
-  background: var(--white);
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(30,45,74,0.08);
-}
-.calc-body { padding: 36px 36px 28px; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-mid);
-  margin-bottom: 6px;
-}
-.field input {
-  width: 100%;
-  padding: 11px 14px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  color: var(--text-dark);
-  background: var(--white);
-  transition: border-color .15s;
-}
+/* CALC CARD */
+.calc-card { background: var(--white); border-radius: 16px; max-width: 580px; margin: 0 auto; box-shadow: 0 4px 24px rgba(30,45,74,0.10); overflow: hidden; }
+.calc-inputs { padding: 32px 32px 24px; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.field label { display: block; font-size: 13px; font-weight: 500; color: var(--text-mid); margin-bottom: 5px; }
+.field input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); transition: border-color .15s; }
 .field input:focus { outline: none; border-color: var(--navy); }
-.hint { font-size: 12px; color: var(--text-light); margin-top: 4px; }
-.calc-btn {
-  width: 100%;
-  padding: 15px;
-  background: var(--navy);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background .2s, transform .1s;
-}
-.calc-btn:hover { background: var(--navy-light); transform: translateY(-1px); }
+.calc-btn { width: 100%; padding: 15px; background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; margin-top: 8px; transition: background .15s; }
+.calc-btn:hover { background: var(--navy-light); }
+.trust-row { display: flex; justify-content: center; gap: 24px; margin-top: 14px; flex-wrap: wrap; }
+.trust-item { font-size: 12px; color: var(--text-light); display: flex; align-items: center; gap: 5px; }
+.trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
 
 /* RESULTS */
-.results-panel { display: none !important; }
-.results-panel.show { display: block !important; }
-.results-divider { border: none; border-top: 1px solid var(--border); margin: 28px 36px 0; }
-.results-body { padding: 28px 36px 0; }
-.result-rows { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
-.result-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
-  font-size: 15px;
-}
-.result-row:last-child { border-bottom: none; }
-.result-row .label { color: var(--text-mid); }
-.result-row .val { font-weight: 600; color: var(--text-dark); }
-.result-row .val-red { font-weight: 600; color: var(--red); }
-.result-row .val-gold { font-weight: 600; color: var(--gold); }
-.result-row.bold-row { background: rgba(240,242,246,0.5); }
-.result-row.bold-row .label { font-weight: 600; color: var(--text-dark); }
-.big-result-box {
-  background: var(--navy);
-  border-radius: 12px;
-  padding: 28px 24px;
-  text-align: center;
-  margin-bottom: 8px;
-  position: relative;
-  overflow: hidden;
-}
-.big-result-box::before {
-  content: '';
-  position: absolute;
-  top: -40px; right: -40px;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: rgba(200,146,42,0.08);
-}
-.yr-tag {
-  position: absolute;
-  top: 0; right: 0;
-  background: var(--gold);
-  color: var(--white);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  padding: 5px 12px;
-  border-radius: 0 12px 0 8px;
-}
-.big-result-label { font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
-.big-result-amt { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 800; color: var(--white); line-height: 1; margin-bottom: 6px; }
-.big-result-sub { font-size: 13px; color: rgba(255,255,255,0.55); }
-.recurring-box {
-  background: var(--gold-pale);
-  border: 1px solid rgba(200,146,42,0.25);
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 28px;
-}
-.recurring-highlight { font-size: 15px; color: var(--gold); font-weight: 600; margin-bottom: 6px; }
-.recurring-highlight span { font-size: 20px; }
-.recurring-desc { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+.results-area { display: none; border-top: 1px solid var(--border); }
+.results-inner { padding: 24px 32px 0; }
+.result-table { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.rt-row { display: flex; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.rt-row:last-child { border-bottom: none; }
+.rt-row .rl { color: var(--text-mid); }
+.rt-row .rv { font-weight: 600; color: var(--text-dark); }
+.rt-row .rv-red { font-weight: 600; color: var(--red); }
+.rt-row .rv-gold { font-weight: 600; color: var(--gold); }
+.rt-row.bold-row { background: rgba(240,242,246,.5); }
+.rt-row.bold-row .rl { font-weight: 600; color: var(--text-dark); }
+.big-box { background: var(--navy); border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 14px; position: relative; overflow: hidden; }
+.big-box .yr-tag { position: absolute; top: 0; right: 0; background: var(--gold); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 5px 12px; border-radius: 0 12px 0 8px; }
+.big-box .lbl { font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+.big-box .amt { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px; }
+.big-box .bsub { font-size: 12px; color: rgba(255,255,255,.5); }
+.recurring { background: var(--gold-pale); border: 1px solid rgba(200,146,42,.25); border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; }
+.recurring .rh { font-size: 15px; color: var(--gold); font-weight: 600; margin-bottom: 3px; }
+.recurring .rd { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
 
-/* ADVISOR FORM */
-.advisor-panel { display: none !important; }
-.advisor-panel.show { display: block !important; }
-.advisor-divider { border: none; border-top: 2px solid var(--gold); margin: 0; }
-.advisor-body { padding: 32px 36px 36px; }
-.advisor-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 6px;
-}
-.advisor-sub { font-size: 14px; color: var(--text-mid); margin-bottom: 24px; }
-.advisor-submit {
-  width: 100%;
-  padding: 15px;
-  background: var(--gold);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background .2s, transform .1s;
-}
-.advisor-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
-.privacy-note { text-align: center; font-size: 12px; color: var(--text-light); margin-top: 12px; }
+/* LEAD FORM */
+.lead-form { border-top: 2px solid var(--gold); padding: 28px 32px 32px; }
+.lead-form h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.lead-form .lf-sub { font-size: 13px; color: var(--text-mid); margin-bottom: 18px; }
+.lf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.lf-field label { display: block; font-size: 12px; font-weight: 500; color: var(--text-mid); margin-bottom: 4px; }
+.lf-field input, .lf-field select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); }
+.lf-full { margin-bottom: 12px; }
+.lf-full label { display: block; font-size: 12px; font-weight: 500; color: var(--text-mid); margin-bottom: 4px; }
+.lf-full input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text-dark); }
+.submit-btn { width: 100%; padding: 14px; background: var(--gold); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; margin-top: 4px; transition: background .15s; }
+.submit-btn:hover { background: var(--gold-light); }
+.privacy { text-align: center; font-size: 11px; color: var(--text-light); margin-top: 8px; }
 
-/* CONFIRMATION */
-.confirm-panel { display: none !important; }
-.confirm-panel.show { display: block !important; }
-.confirm-body { padding: 36px; text-align: center; }
-.confirm-check {
-  width: 60px; height: 60px;
-  background: #e8f5e9;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-}
-.confirm-check svg { width: 28px; height: 28px; color: #2e7d32; }
-.confirm-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 10px;
-}
-.confirm-sub { font-size: 15px; color: var(--text-mid); max-width: 380px; margin: 0 auto 24px; line-height: 1.7; }
-.confirm-summary {
-  background: var(--gray-bg);
-  border-radius: 10px;
-  padding: 16px 20px;
-  font-size: 14px;
-  color: var(--text-mid);
-  text-align: left;
-  max-width: 380px;
-  margin: 0 auto;
-}
-.confirm-summary .cs-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); }
-.confirm-summary .cs-row:last-child { border-bottom: none; }
-.confirm-summary .cs-val { font-weight: 600; color: var(--text-dark); }
+/* CONFIRM */
+.confirm-area { display: none; padding: 40px 32px; text-align: center; }
+.confirm-check { width: 56px; height: 56px; background: #e8f5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+.confirm-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.confirm-msg { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
 
-/* FOOTER */
-footer {
-  background: var(--navy-dark);
-  color: rgba(255,255,255,0.6);
-  text-align: center;
-  padding: 32px 2rem;
-  font-size: 13px;
-}
-footer .footer-logo { font-weight: 600; font-size: 17px; color: var(--white); margin-bottom: 10px; }
+/* BELOW FOLD */
+.why-section { padding: 72px 2rem; background: var(--white); }
+.container { max-width: 1040px; margin: 0 auto; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.dark-card { background: var(--navy); border-radius: 16px; padding: 40px 36px; color: var(--white); }
+.dark-card .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.dark-card h2 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; line-height: 1.25; margin-bottom: 16px; }
+.dark-card p { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 20px; }
+.divider-line { border: none; border-top: 1px solid rgba(255,255,255,0.12); margin: 20px 0; }
+.big-pct { font-size: 48px; font-weight: 700; color: var(--gold); }
+.big-pct-label { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.benefit-cards { display: flex; flex-direction: column; gap: 14px; }
+.benefit-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; display: flex; gap: 14px; align-items: flex-start; }
+.benefit-icon { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); font-size: 16px; }
+.benefit-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--text-dark); }
+.benefit-card p { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+.how-section { padding: 72px 2rem; background: var(--gray-bg); text-align: center; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.section-sub { font-size: 15px; color: var(--text-mid); margin-bottom: 48px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+.step-num { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); margin: 0 auto 14px; }
+.step-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+footer { background: var(--navy-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 28px 2rem; font-size: 13px; }
+footer .footer-logo { font-weight: 600; font-size: 17px; color: var(--white); margin-bottom: 8px; }
 footer .footer-logo span { color: var(--red); }
 footer a { color: rgba(255,255,255,0.5); text-decoration: none; margin: 0 8px; }
-footer a:hover { color: var(--white); }
-footer .footer-links { margin: 12px 0 8px; }
-
-/* RESPONSIVE */
-@media (max-width: 700px) {
-  .two-col { grid-template-columns: 1fr; }
-  .steps { grid-template-columns: 1fr; gap: 28px; }
-  .field-row { grid-template-columns: 1fr; }
-  .calc-body, .results-body, .advisor-body { padding: 24px 20px; }
-  .advisor-body { padding-bottom: 24px; }
+footer .footer-links { margin: 10px 0 6px; }
+@media (max-width: 680px) {
+  .field-grid, .lf-grid, .two-col, .steps { grid-template-columns: 1fr; }
+  .calc-inputs, .results-inner, .lead-form { padding-left: 20px; padding-right: 20px; }
+  .confirm-area { padding: 32px 20px; }
 }
 </style>
 </head>
@@ -428,33 +136,100 @@ footer .footer-links { margin: 12px 0 8px; }
   <div class="nav-right">Powered by <strong>FICA Tip Credit</strong> Tax Credit Recovery</div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO + CALCULATOR -->
 <section class="hero">
-  <div class="badge">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    Limited Time: Free FICA Audit (Normally $1,500)
-  </div>
-  <h1>Are You <span class="red">Overpaying</span> the IRS<br><span class="gold">$25,000 – $250,000</span><br>Every Year?</h1>
-  <p class="hero-sub">Most restaurant and hospitality owners don't know they can recover <strong>7.65% of employee tips</strong> through the FICA Tip Credit. That's money you've already paid—sitting with the IRS—waiting to be claimed.</p>
-  <div class="avg-box">
-    <span class="avg-arrow">↗</span>
-    <span><strong>Average Annual Recovery:</strong> $27,000 per location</span>
-  </div>
-  <div class="checks">
-    <div class="check-item">
-      <div class="icon"><svg viewBox="0 0 12 12" fill="none" stroke="#c8922a" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div>
-      <span><strong>No upfront cost</strong> — We work on contingency, you only pay if you get money</span>
+  <h1>Find Out What the IRS<br>Owes <span class="gold">Your Restaurant</span></h1>
+  <p class="sub">Enter your numbers below — get your estimate instantly, free</p>
+
+  <div class="calc-card">
+    <div class="calc-inputs">
+      <div class="field-grid">
+        <div class="field">
+          <label>Tipped employees</label>
+          <input type="number" id="nc-emp" placeholder="e.g. 20" min="1">
+        </div>
+        <div class="field">
+          <label>Annual tips reported ($)</label>
+          <input type="number" id="nc-tips" placeholder="e.g. 240000" min="0">
+        </div>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Base hourly wage ($)</label>
+          <input type="number" id="nc-wage" placeholder="e.g. 13.00" step="0.25">
+        </div>
+        <div class="field">
+          <label>Avg hours/week per employee</label>
+          <input type="number" id="nc-hrs" placeholder="e.g. 25" min="1">
+        </div>
+      </div>
+      <button type="button" class="calc-btn" id="nc-calc-btn">Calculate My Recovery →</button>
+      <div class="trust-row">
+        <span class="trust-item"><span class="trust-dot"></span>Free, no obligation</span>
+        <span class="trust-item"><span class="trust-dot"></span>Instant estimate</span>
+        <span class="trust-item"><span class="trust-dot"></span>No upfront cost</span>
+      </div>
     </div>
-    <div class="check-item">
-      <div class="icon"><svg viewBox="0 0 12 12" fill="none" stroke="#c8922a" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div>
-      <span><strong>Full audit protection</strong> — We handle all IRS correspondence and defense</span>
+
+    <!-- RESULTS -->
+    <div class="results-area" id="nc-results">
+      <div class="results-inner">
+        <div class="result-table">
+          <div class="rt-row"><span class="rl">Annual Gross Tips</span><span class="rv" id="nc-r-tips">-</span></div>
+          <div class="rt-row"><span class="rl">Min. Wage Offset (Est.)</span><span class="rv-red" id="nc-r-offset">-</span></div>
+          <div class="rt-row bold-row"><span class="rl">Creditable Tips</span><span class="rv" id="nc-r-creditable">-</span></div>
+          <div class="rt-row"><span class="rl">FICA Rate (7.65%)</span><span class="rv">× 0.0765</span></div>
+          <div class="rt-row bold-row"><span class="rl">Annual Credit</span><span class="rv-gold" id="nc-r-annual">-</span></div>
+        </div>
+        <div class="big-box">
+          <div class="yr-tag">4-YEAR TOTAL</div>
+          <div class="lbl">Total Potential Recovery</div>
+          <div class="amt" id="nc-r-total">-</div>
+          <div class="bsub">Current year + 3-year lookback</div>
+        </div>
+        <div class="recurring">
+          <div class="rh">That's <span id="nc-r-recurring">-</span> every single year</div>
+          <div class="rd">in cash you've already paid to the IRS — claimable annually, ongoing. Most restaurant owners have no idea this exists.</div>
+        </div>
+      </div>
+
+      <!-- LEAD FORM -->
+      <div class="lead-form" id="nc-lead-form">
+        <h3>Have an advisor contact you to get this going</h3>
+        <p class="lf-sub">Free, no obligation. We'll reach out and walk you through claiming it.</p>
+        <div class="lf-grid">
+          <div class="lf-field"><label>First name</label><input type="text" id="nc-fname" placeholder="Jane"></div>
+          <div class="lf-field"><label>Last name</label><input type="text" id="nc-lname" placeholder="Smith"></div>
+        </div>
+        <div class="lf-full"><label>Restaurant / business name</label><input type="text" id="nc-biz" placeholder="The Rusty Fork"></div>
+        <div class="lf-grid">
+          <div class="lf-field"><label>Email</label><input type="email" id="nc-email" placeholder="jane@myplace.com"></div>
+          <div class="lf-field"><label>Phone</label><input type="tel" id="nc-phone" placeholder="(555) 000-0000"></div>
+        </div>
+        <div class="lf-grid">
+          <div class="lf-field">
+            <label>State</label>
+            <select id="nc-state">
+              <option value="">Select...</option>
+              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
+            </select>
+          </div>
+          <div class="lf-field"><label>Locations</label><input type="number" id="nc-locs" placeholder="e.g. 1" min="1"></div>
+        </div>
+        <button type="button" class="submit-btn" id="nc-submit-btn">Have an Advisor Contact Me →</button>
+        <p class="privacy">Your info is private and will never be sold or shared.</p>
+      </div>
     </div>
-    <div class="check-item">
-      <div class="icon"><svg viewBox="0 0 12 12" fill="none" stroke="#c8922a" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div>
-      <span><strong>Annual recurring credit</strong> — Claim this benefit every year, ongoing</span>
+
+    <!-- CONFIRM -->
+    <div class="confirm-area" id="nc-confirm">
+      <div class="confirm-check">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="confirm-title">You're all set!</div>
+      <p class="confirm-msg" id="nc-confirm-msg"></p>
     </div>
   </div>
-  <a href="#calculator" class="cta-btn">Calculate Your Potential Recovery Here →</a>
 </section>
 
 <!-- WHY CLAIM -->
@@ -478,17 +253,17 @@ footer .footer-links { margin: 12px 0 8px; }
           </div>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">?</div>
+          <div class="benefit-icon">↺</div>
           <div>
             <h3>Retroactive Recovery</h3>
-            <p>Didn't know about this credit? No problem. We can file amended returns for the past three years to recover missed overpayments.</p>
+            <p>Didn't know about this credit? We can file amended returns for the past three years to recover missed overpayments.</p>
           </div>
         </div>
         <div class="benefit-card">
           <div class="benefit-icon">✦</div>
           <div>
             <h3>Built for Restaurants</h3>
-            <p>Designed specifically for food and beverage establishments where tipping is customary. If you have tipped staff, you likely qualify.</p>
+            <p>Designed specifically for food and beverage establishments. If you have tipped staff, you likely qualify.</p>
           </div>
         </div>
       </div>
@@ -505,7 +280,7 @@ footer .footer-links { margin: 12px 0 8px; }
       <div>
         <div class="step-num">1</div>
         <div class="step-title">Free Calculation</div>
-        <p class="step-desc">Enter your basic business info below. We'll calculate your estimated FICA Tip Credit in seconds — no strings attached.</p>
+        <p class="step-desc">Enter your basic business info above. We'll calculate your estimated FICA Tip Credit instantly — no strings attached.</p>
       </div>
       <div>
         <div class="step-num">2</div>
@@ -521,116 +296,14 @@ footer .footer-links { margin: 12px 0 8px; }
   </div>
 </section>
 
-
-<!-- CALCULATOR -->
-<section id="calculator" style="background:#f0f2f6;padding:72px 16px">
-  <div style="text-align:center;margin-bottom:40px">
-    <h2 style="font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:#1e2d4a;margin-bottom:8px">See What You're Leaving on the Table</h2>
-    <p style="font-size:16px;color:#4a5568">Enter your numbers — we'll show your estimated annual recovery instantly</p>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">North<span>Coast</span> System</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>
   </div>
-
-  <div style="background:#fff;border-radius:16px;max-width:620px;margin:0 auto;overflow:hidden;box-shadow:0 4px 24px rgba(30,45,74,0.10)">
-
-    <div style="padding:36px 36px 28px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-        <div>
-          <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Tipped employees</label>
-          <input type="number" id="nc-emp" placeholder="e.g. 20" min="1" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:#1a1a2e">
-        </div>
-        <div>
-          <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Annual tips reported ($)</label>
-          <input type="number" id="nc-tips" placeholder="e.g. 240000" min="0" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:#1a1a2e">
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
-        <div>
-          <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Base hourly wage ($)</label>
-          <input type="number" id="nc-wage" placeholder="e.g. 13.00" step="0.25" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:#1a1a2e">
-        </div>
-        <div>
-          <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Avg hours/week per employee</label>
-          <input type="number" id="nc-hrs" placeholder="e.g. 25" min="1" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:#1a1a2e">
-        </div>
-      </div>
-      <button type="button" id="nc-calc-btn" style="width:100%;padding:15px;background:#1e2d4a;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Calculate My Recovery &rarr;</button>
-    </div>
-
-    <div id="nc-results" style="display:none;border-top:1px solid #e2e6ed">
-      <div style="padding:28px 36px 0">
-        <div style="border:1px solid #e2e6ed;border-radius:10px;overflow:hidden;margin-bottom:20px">
-          <div style="display:flex;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #e2e6ed;font-size:15px"><span style="color:#4a5568">Annual Gross Tips</span><span style="font-weight:600" id="nc-r-tips">-</span></div>
-          <div style="display:flex;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #e2e6ed;font-size:15px"><span style="color:#4a5568">Min. Wage Offset (Est.)</span><span style="font-weight:600;color:#e05a3a" id="nc-r-offset">-</span></div>
-          <div style="display:flex;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #e2e6ed;font-size:15px;background:rgba(240,242,246,.6)"><span style="font-weight:600;color:#1a1a2e">Creditable Tips</span><span style="font-weight:600" id="nc-r-creditable">-</span></div>
-          <div style="display:flex;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #e2e6ed;font-size:15px"><span style="color:#4a5568">FICA Rate (7.65%)</span><span style="font-weight:600">x 0.0765</span></div>
-          <div style="display:flex;justify-content:space-between;padding:13px 20px;font-size:15px;background:rgba(240,242,246,.6)"><span style="font-weight:600;color:#1a1a2e">Annual Credit</span><span style="font-weight:600;color:#c8922a" id="nc-r-annual">-</span></div>
-        </div>
-        <div style="background:#1e2d4a;border-radius:12px;padding:28px 24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden">
-          <div style="position:absolute;top:0;right:0;background:#c8922a;color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;padding:5px 12px;border-radius:0 12px 0 8px">4-YEAR TOTAL</div>
-          <div style="font-size:11px;color:#c8922a;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Total Potential Recovery</div>
-          <div style="font-family:'Playfair Display',serif;font-size:52px;font-weight:800;color:#fff;line-height:1;margin-bottom:6px" id="nc-r-total">-</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.5)">Current year + 3-year lookback</div>
-        </div>
-        <div style="background:#fdf3e3;border:1px solid rgba(200,146,42,.25);border-radius:10px;padding:16px 20px;margin-bottom:28px">
-          <div style="font-size:15px;color:#c8922a;font-weight:600;margin-bottom:4px">That's <span id="nc-r-recurring">-</span> every single year</div>
-          <div style="font-size:13px;color:#4a5568;line-height:1.6">in cash you've already paid to the IRS - claimable annually, ongoing. Most restaurant owners have no idea this exists.</div>
-        </div>
-      </div>
-
-      <div id="nc-lead-form" style="border-top:2px solid #c8922a;padding:32px 36px 36px">
-        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#1e2d4a;margin-bottom:6px">Have an advisor contact you to get this going</div>
-        <p style="font-size:14px;color:#4a5568;margin-bottom:22px">Free, no obligation. We'll reach out and walk you through claiming it.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-          <div>
-            <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">First name</label>
-            <input type="text" id="nc-fname" placeholder="Jane" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif">
-          </div>
-          <div>
-            <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Last name</label>
-            <input type="text" id="nc-lname" placeholder="Smith" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif">
-          </div>
-        </div>
-        <div style="margin-bottom:14px">
-          <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Restaurant / business name</label>
-          <input type="text" id="nc-biz" placeholder="The Rusty Fork" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif">
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-          <div>
-            <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Email</label>
-            <input type="email" id="nc-email" placeholder="jane@myplace.com" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif">
-          </div>
-          <div>
-            <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Phone</label>
-            <input type="tel" id="nc-phone" placeholder="(555) 000-0000" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif">
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
-          <div>
-            <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">State</label>
-            <select id="nc-state" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:#1a1a2e;background:#fff">
-              <option value="">Select...</option>
-              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
-            </select>
-          </div>
-          <div>
-            <label style="display:block;font-size:13px;font-weight:500;color:#4a5568;margin-bottom:5px">Locations</label>
-            <input type="number" id="nc-locs" placeholder="e.g. 1" min="1" style="width:100%;padding:11px 14px;border:1px solid #e2e6ed;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif">
-          </div>
-        </div>
-        <button type="button" id="nc-submit-btn" style="width:100%;padding:15px;background:#c8922a;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Have an Advisor Contact Me &rarr;</button>
-        <p style="text-align:center;font-size:12px;color:#8896a4;margin-top:10px">Your info is private and will never be sold or shared.</p>
-      </div>
-    </div>
-
-    <div id="nc-confirm" style="display:none;padding:40px 36px;text-align:center">
-      <div style="width:56px;height:56px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#1e2d4a;margin-bottom:10px">You're all set!</div>
-      <p id="nc-confirm-msg" style="font-size:15px;color:#4a5568;line-height:1.7"></p>
-    </div>
-
-  </div>
-</section>
+  <div>© 2025 www.northcoastsystempros.com · Powered by FICA Tip Credit Tax Credit Recovery</div>
+</footer>
 
 <script>
 var NC_WEBHOOK = '';
@@ -648,13 +321,13 @@ function ncCalc() {
   var creditable = tips * 0.70;
   var annual     = creditable * 0.0765;
   var total4     = annual * 4;
-  document.getElementById('nc-r-tips').textContent      = ncFmt(tips);
-  document.getElementById('nc-r-offset').textContent    = '-' + ncFmt(offset);
+  document.getElementById('nc-r-tips').textContent       = ncFmt(tips);
+  document.getElementById('nc-r-offset').textContent     = '-' + ncFmt(offset);
   document.getElementById('nc-r-creditable').textContent = ncFmt(creditable);
-  document.getElementById('nc-r-annual').textContent    = ncFmt(annual);
-  document.getElementById('nc-r-total').textContent     = ncFmt(total4);
-  document.getElementById('nc-r-recurring').textContent = ncFmt(annual);
-  document.getElementById('nc-results').style.display   = 'block';
+  document.getElementById('nc-r-annual').textContent     = ncFmt(annual);
+  document.getElementById('nc-r-total').textContent      = ncFmt(total4);
+  document.getElementById('nc-r-recurring').textContent  = ncFmt(annual);
+  document.getElementById('nc-results').style.display    = 'block';
   setTimeout(function() {
     document.getElementById('nc-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 50);
@@ -687,7 +360,7 @@ function ncSubmit() {
   }
   document.getElementById('nc-lead-form').style.display = 'none';
   document.getElementById('nc-confirm-msg').innerHTML =
-    'Thanks <strong>' + fname + '</strong> - an advisor will be in touch shortly.<br><br>' +
+    'Thanks <strong>' + fname + '</strong> — an advisor will be in touch shortly.<br><br>' +
     'Estimated annual credit: <strong style="color:#c8922a">' + ncFmt(annual) + '</strong><br>' +
     '4-year total: <strong style="color:#c8922a">' + ncFmt(total4) + '</strong>';
   document.getElementById('nc-confirm').style.display = 'block';
@@ -697,15 +370,5 @@ function ncSubmit() {
 document.getElementById('nc-calc-btn').addEventListener('click', ncCalc);
 document.getElementById('nc-submit-btn').addEventListener('click', ncSubmit);
 </script>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">North<span>Coast</span> System</div>
-  <div class="footer-links">
-    <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>
-  </div>
-  <div>© 2025 www.northcoastsystem.net · Powered by FICA Tip Credit Tax Credit Recovery</div>
-</footer>
-
 </body>
 </html>

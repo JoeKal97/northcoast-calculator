@@ -9,19 +9,19 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root {
- --navy: #1e2d4a;
- --navy-light: #253761;
- --navy-dark: #141e33;
- --gold: #c8922a;
- --gold-light: #e0a830;
- --gold-pale: #fdf3e3;
- --red: #e05a3a;
- --gray-bg: #f0f2f6;
- --white: #ffffff;
- --text-dark: #1a1a2e;
- --text-mid: #4a5568;
- --text-light: #8896a4;
- --border: #e2e6ed;
+  --navy: #1e2d4a;
+  --navy-light: #253761;
+  --navy-dark: #141e33;
+  --gold: #c8922a;
+  --gold-light: #e0a830;
+  --gold-pale: #fdf3e3;
+  --red: #e05a3a;
+  --gray-bg: #f0f2f6;
+  --white: #ffffff;
+  --text-dark: #1a1a2e;
+  --text-mid: #4a5568;
+  --text-light: #8896a4;
+  --border: #e2e6ed;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -52,55 +52,340 @@ nav { background: var(--white); border-bottom: 1px solid var(--border); padding:
 .trust-row { display: flex; justify-content: center; gap: 24px; margin-top: 14px; flex-wrap: wrap; }
 .trust-item { font-size: 12px; color: var(--text-light); display: flex; align-items: center; gap: 5px; }
 .trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+/* RESULTS */
+.results-area { display: none; border-top: 1px solid var(--border); }
+.results-inner { padding: 24px 32px 0; }
+.result-table { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.rt-row { display: flex; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.rt-row:last-child { border-bottom: none; }
+.rt-row .rl { color: var(--text-mid); }
+.rt-row .rv { font-weight: 600; color: var(--text-dark); }
+.rt-row .rv-red { font-weight: 600; color: var(--red); }
+.rt-row .rv-gold { font-weight: 600; color: var(--gold); }
+.rt-row.bold-row { background: rgba(240,242,246,.5); }
+.rt-row.bold-row .rl { font-weight: 600; color: var(--text-dark); }
+.big-box { background: var(--navy); border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 14px; position: relative; overflow: hidden; }
+.big-box .yr-tag { position: absolute; top: 0; right: 0; background: var(--gold); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 5px 12px; border-radius: 0 12px 0 8px; }
+.big-box .lbl { font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+.big-box .amt { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px; }
+.big-box .bsub { font-size: 12px; color: rgba(255,255,255,.5); }
+.recurring { background: var(--gold-pale); border: 1px solid rgba(200,146,42,.25); border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; }
+.recurring .rh { font-size: 15px; color: var(--gold); font-weight: 600; margin-bottom: 3px; }
+.recurring .rd { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+/* LEAD FORM */
+.lead-form { border-top: 2px solid var(--gold); padding: 28px 32px 32px; }
+.lead-form h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.lead-form .lf-sub { font-size: 13px; color: var(--text-mid); margin-bottom: 18px; }
+.lf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.lf-field label { display: block; font-size: 12px; font-weight: 500; color: var(--text-mid); margin-bottom: 4px; }
+.lf-field input, .lf-field select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); }
+.lf-full { margin-bottom: 12px; }
+.lf-full label { display: block; font-size: 12px; font-weight: 500; color: var(--text-mid); margin-bottom: 4px; }
+.lf-full input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text-dark); }
+.submit-btn { width: 100%; padding: 14px; background: var(--gold); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; margin-top: 4px; transition: background .15s; }
+.submit-btn:hover { background: var(--gold-light); }
+.privacy { text-align: center; font-size: 11px; color: var(--text-light); margin-top: 8px; }
+
+/* CONFIRM */
+.confirm-area { display: none; padding: 40px 32px; text-align: center; }
+.confirm-check { width: 56px; height: 56px; background: #e8f5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+.confirm-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.confirm-msg { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+/* BELOW FOLD */
+.why-section { padding: 72px 2rem; background: var(--white); }
+.container { max-width: 1040px; margin: 0 auto; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.dark-card { background: var(--navy); border-radius: 16px; padding: 40px 36px; color: var(--white); }
+.dark-card .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.dark-card h2 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; line-height: 1.25; margin-bottom: 16px; }
+.dark-card p { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 20px; }
+.divider-line { border: none; border-top: 1px solid rgba(255,255,255,0.12); margin: 20px 0; }
+.big-pct { font-size: 48px; font-weight: 700; color: var(--gold); }
+.big-pct-label { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.benefit-cards { display: flex; flex-direction: column; gap: 14px; }
+.benefit-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; display: flex; gap: 14px; align-items: flex-start; }
+.benefit-icon { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); font-size: 16px; }
+.benefit-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--text-dark); }
+.benefit-card p { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+.how-section { padding: 72px 2rem; background: var(--gray-bg); text-align: center; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 36px); font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.section-sub { font-size: 15px; color: var(--text-mid); margin-bottom: 48px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+.step-num { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); margin: 0 auto 14px; }
+.step-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+footer { background: var(--navy-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 28px 2rem; font-size: 13px; }
+footer .footer-logo { font-weight: 600; font-size: 17px; color: var(--white); margin-bottom: 8px; }
+footer .footer-logo span { color: var(--red); }
+footer a { color: rgba(255,255,255,0.5); text-decoration: none; margin: 0 8px; }
+footer .footer-links { margin: 10px 0 6px; }
+@media (max-width: 680px) {
+  .field-grid, .lf-grid, .two-col, .steps { grid-template-columns: 1fr; }
+  .calc-inputs, .results-inner, .lead-form { padding-left: 20px; padding-right: 20px; }
+  .confirm-area { padding: 32px 20px; }
+}
 </style>
 </head>
 <body>
+
+<!-- NAV -->
 <nav>
-  <div class="logo">NorthCoast<span>.</span></div>
-  <div class="nav-right">Questions? <strong>hello@northcoastsystem.com</strong></div>
+  <div class="logo">North<span>Coast</span> System</div>
+  <div class="nav-right">Powered by <strong>FICA Tip Credit</strong> Tax Credit Recovery</div>
 </nav>
 
+<!-- HERO + CALCULATOR -->
 <section class="hero">
-  <h1>Calculate Your <span class="gold">FICA Tip Credit</span></h1>
-  <p class="sub">See how much your restaurant could recover in 60 seconds</p>
-  
+  <h1>Find Out What the IRS<br>Owes <span class="gold">Your Restaurant</span></h1>
+  <p class="sub">Enter your numbers below — get your estimate instantly, free</p>
+
   <div class="calc-card">
     <div class="calc-inputs">
       <div class="field-grid">
         <div class="field">
-          <label>Annual Payroll</label>
-          <input type="number" id="payroll" placeholder="e.g. 500000">
+          <label>Tipped employees</label>
+          <input type="number" id="nc-emp" placeholder="e.g. 20" min="1">
         </div>
         <div class="field">
-          <label>Tipped Employees</label>
-          <input type="number" id="employees" placeholder="e.g. 15">
+          <label>Annual tips reported ($)</label>
+          <input type="number" id="nc-tips" placeholder="e.g. 240000" min="0">
         </div>
       </div>
-      <button class="calc-btn" onclick="calculate()">Calculate My Recovery</button>
+      <div class="field-grid">
+        <div class="field">
+          <label>Base hourly wage ($)</label>
+          <input type="number" id="nc-wage" placeholder="e.g. 13.00" step="0.25">
+        </div>
+        <div class="field">
+          <label>Avg hours/week per employee</label>
+          <input type="number" id="nc-hrs" placeholder="e.g. 25" min="1">
+        </div>
+      </div>
+      <button type="button" class="calc-btn" id="nc-calc-btn">Calculate My Recovery →</button>
       <div class="trust-row">
-        <div class="trust-item"><span class="trust-dot"></span> Free estimate</div>
-        <div class="trust-item"><span class="trust-dot"></span> No obligation</div>
-        <div class="trust-item"><span class="trust-dot"></span> Confidential</div>
+        <span class="trust-item"><span class="trust-dot"></span>Free, no obligation</span>
+        <span class="trust-item"><span class="trust-dot"></span>Instant estimate</span>
+        <span class="trust-item"><span class="trust-dot"></span>No upfront cost</span>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-area" id="nc-results">
+      <div class="results-inner">
+        <div class="result-table">
+          <div class="rt-row"><span class="rl">Annual Gross Tips</span><span class="rv" id="nc-r-tips">-</span></div>
+          <div class="rt-row"><span class="rl">Min. Wage Offset (Est.)</span><span class="rv-red" id="nc-r-offset">-</span></div>
+          <div class="rt-row bold-row"><span class="rl">Creditable Tips</span><span class="rv" id="nc-r-creditable">-</span></div>
+          <div class="rt-row"><span class="rl">FICA Rate (7.65%)</span><span class="rv">× 0.0765</span></div>
+          <div class="rt-row bold-row"><span class="rl">Annual Credit</span><span class="rv-gold" id="nc-r-annual">-</span></div>
+        </div>
+        <div class="big-box">
+          <div class="yr-tag">4-YEAR TOTAL</div>
+          <div class="lbl">Total Potential Recovery</div>
+          <div class="amt" id="nc-r-total">-</div>
+          <div class="bsub">Current year + 3-year lookback</div>
+        </div>
+        <div class="recurring">
+          <div class="rh">That's <span id="nc-r-recurring">-</span> every single year</div>
+          <div class="rd">in cash you've already paid to the IRS — claimable annually, ongoing. Most restaurant owners have no idea this exists.</div>
+        </div>
+      </div>
+
+      <!-- LEAD FORM -->
+      <div class="lead-form" id="nc-lead-form">
+        <h3>Have an advisor contact you to get this going</h3>
+        <p class="lf-sub">Free, no obligation. We'll reach out and walk you through claiming it.</p>
+        <div class="lf-grid">
+          <div class="lf-field"><label>First name</label><input type="text" id="nc-fname" placeholder="Jane"></div>
+          <div class="lf-field"><label>Last name</label><input type="text" id="nc-lname" placeholder="Smith"></div>
+        </div>
+        <div class="lf-full"><label>Restaurant / business name</label><input type="text" id="nc-biz" placeholder="The Rusty Fork"></div>
+        <div class="lf-grid">
+          <div class="lf-field"><label>Email</label><input type="email" id="nc-email" placeholder="jane@myplace.com"></div>
+          <div class="lf-field"><label>Phone</label><input type="tel" id="nc-phone" placeholder="(555) 000-0000"></div>
+        </div>
+        <div class="lf-grid">
+          <div class="lf-field">
+            <label>State</label>
+            <select id="nc-state">
+              <option value="">Select...</option>
+              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
+            </select>
+          </div>
+          <div class="lf-field"><label>Locations</label><input type="number" id="nc-locs" placeholder="e.g. 1" min="1"></div>
+        </div>
+        <button type="button" class="submit-btn" id="nc-submit-btn">Have an Advisor Contact Me →</button>
+        <p class="privacy">Your info is private and will never be sold or shared.</p>
+      </div>
+    </div>
+
+    <!-- CONFIRM -->
+    <div class="confirm-area" id="nc-confirm">
+      <div class="confirm-check">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="confirm-title">You're all set!</div>
+      <p class="confirm-msg" id="nc-confirm-msg"></p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CLAIM -->
+<section class="why-section">
+  <div class="container">
+    <div class="two-col">
+      <div class="dark-card">
+        <div class="eyebrow">The Credit Explained</div>
+        <h2>Why Claim the FICA Tip Credit?</h2>
+        <p>This isn't a deduction — it's a dollar-for-dollar tax credit that directly reduces your tax liability. Every dollar of credit is a dollar back in your pocket, not just a reduction in taxable income.</p>
+        <div class="divider-line"></div>
+        <div class="big-pct">7.65%</div>
+        <div class="big-pct-label">of all reported employee tips<br>recovered as a direct tax credit</div>
+      </div>
+      <div class="benefit-cards">
+        <div class="benefit-card">
+          <div class="benefit-icon">$</div>
+          <div>
+            <h3>Immediate Cash Flow</h3>
+            <p>Reduce your current year's tax bill instantly. If the credit exceeds your liability, carry it back one year or forward up to 20 years.</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">↺</div>
+          <div>
+            <h3>Retroactive Recovery</h3>
+            <p>Didn't know about this credit? We can file amended returns for the past three years to recover missed overpayments.</p>
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">✦</div>
+          <div>
+            <h3>Built for Restaurants</h3>
+            <p>Designed specifically for food and beverage establishments. If you have tipped staff, you likely qualify.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">We handle everything. You just collect the check.</p>
+    <div class="steps">
+      <div>
+        <div class="step-num">1</div>
+        <div class="step-title">Free Calculation</div>
+        <p class="step-desc">Enter your basic business info above. We'll calculate your estimated FICA Tip Credit instantly — no strings attached.</p>
+      </div>
+      <div>
+        <div class="step-num">2</div>
+        <div class="step-title">We Do the Work</div>
+        <p class="step-desc">Our specialists verify eligibility, prepare documentation, and file everything with the IRS. You don't lift a finger.</p>
+      </div>
+      <div>
+        <div class="step-num">3</div>
+        <div class="step-title">Get Your Money</div>
+        <p class="step-desc">Receive your credit with full audit protection. Most clients see funds within 90–120 days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">North<span>Coast</span> System</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a>
+  </div>
+  <div>© 2025 www.northcoastsystempros.com · Powered by FICA Tip Credit Tax Credit Recovery</div>
+</footer>
+
 <script>
-function calculate() {
-  const payroll = parseFloat(document.getElementById('payroll').value) || 0;
-  const employees = parseInt(document.getElementById('employees').value) || 0;
-  
-  if (payroll <= 0 || employees <= 0) {
-    alert('Please enter valid numbers for both fields');
-    return;
-  }
-  
-  // FICA Tip Credit calculation (simplified)
-  const estimatedCredit = payroll * 0.0765 * 0.15; // Approximate 15% of FICA taxes
-  
-  alert(`Estimated Annual FICA Tip Credit: $${estimatedCredit.toLocaleString('en-US', {maximumFractionDigits: 0})}\n\nA NorthCoast specialist will contact you with a detailed analysis.`);
+var EJS_SERVICE  = 'service_6b5h9nk';
+var EJS_TEMPLATE = 'template_6zdjzxn';
+var EJS_KEY      = 'oVz1guxB5Za9NdAk6';
+
+emailjs.init({ publicKey: EJS_KEY });
+
+function ncFmt(n) {
+  return '$' + Math.round(n).toLocaleString();
 }
+
+function ncCalc() {
+  var tips = parseFloat(document.getElementById('nc-tips').value) || 0;
+  var emp  = parseFloat(document.getElementById('nc-emp').value)  || 0;
+  if (!tips) { alert('Please enter your annual tips reported.'); return; }
+  if (!emp)  { alert('Please enter your number of tipped employees.'); return; }
+  var offset     = tips * 0.30;
+  var creditable = tips * 0.70;
+  var annual     = creditable * 0.0765;
+  var total4     = annual * 4;
+  document.getElementById('nc-r-tips').textContent       = ncFmt(tips);
+  document.getElementById('nc-r-offset').textContent     = '-' + ncFmt(offset);
+  document.getElementById('nc-r-creditable').textContent = ncFmt(creditable);
+  document.getElementById('nc-r-annual').textContent     = ncFmt(annual);
+  document.getElementById('nc-r-total').textContent      = ncFmt(total4);
+  document.getElementById('nc-r-recurring').textContent  = ncFmt(annual);
+  document.getElementById('nc-results').style.display    = 'block';
+  setTimeout(function() {
+    document.getElementById('nc-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function ncSubmit() {
+  var fname = document.getElementById('nc-fname').value.trim();
+  var lname = document.getElementById('nc-lname').value.trim();
+  var email = document.getElementById('nc-email').value.trim();
+  var biz   = document.getElementById('nc-biz').value.trim();
+  var phone = document.getElementById('nc-phone').value.trim();
+  var state = document.getElementById('nc-state').value;
+  var locs  = document.getElementById('nc-locs').value;
+  var tips  = parseFloat(document.getElementById('nc-tips').value) || 0;
+  if (!fname) { alert('Please enter your first name.'); return; }
+  if (!email) { alert('Please enter your email.'); return; }
+  if (!biz)   { alert('Please enter your business name.'); return; }
+  var annual = tips * 0.70 * 0.0765;
+  var total4 = annual * 4;
+
+  var templateParams = {
+    fname:        fname,
+    lname:        lname,
+    email:        email,
+    phone:        phone,
+    biz:          biz,
+    state:        state,
+    locations:    locs || '1',
+    annual_tips:  ncFmt(tips),
+    annual_credit: ncFmt(annual),
+    total_4yr:    ncFmt(total4)
+  };
+
+  emailjs.send(EJS_SERVICE, EJS_TEMPLATE, templateParams)
+    .then(function() {
+      console.log('Lead sent via EmailJS');
+    })
+    .catch(function(err) {
+      console.error('EmailJS error:', err);
+      alert('Note: email notification failed — ' + JSON.stringify(err));
+    });
+
+  document.getElementById('nc-lead-form').style.display = 'none';
+  document.getElementById('nc-confirm-msg').innerHTML =
+    'Thanks <strong>' + fname + '</strong> — an advisor will be in touch shortly.<br><br>' +
+    'Estimated annual credit: <strong style="color:#c8922a">' + ncFmt(annual) + '</strong><br>' +
+    '4-year total: <strong style="color:#c8922a">' + ncFmt(total4) + '</strong>';
+  document.getElementById('nc-confirm').style.display = 'block';
+  document.getElementById('nc-confirm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.getElementById('nc-calc-btn').addEventListener('click', ncCalc);
+document.getElementById('nc-submit-btn').addEventListener('click', ncSubmit);
 </script>
 </body>
 </html>

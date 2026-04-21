@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root {
   --navy: #1e2d4a;
@@ -311,6 +312,10 @@ var EJS_SERVICE  = 'service_6b5h9nk';
 var EJS_TEMPLATE = 'template_6zdjzxn';
 var EJS_KEY      = 'oVz1guxB5Za9NdAk6';
 
+var SB_URL  = 'https://xkivseudnugskrtiulsc.supabase.co';
+var SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhraXZzZXVkbnVnc2tydGl1bHNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODAwNzcsImV4cCI6MjA5MDU1NjA3N30.iftAY3qtjEE6tM3IRjhPO-g6SNauzcpBHV40h622mIA';
+var sb = supabase.createClient(SB_URL, SB_KEY);
+
 emailjs.init({ publicKey: EJS_KEY });
 
 function ncFmt(n) {
@@ -374,6 +379,23 @@ function ncSubmit() {
       console.error('EmailJS error:', err);
       alert('Note: email notification failed — ' + JSON.stringify(err));
     });
+
+  // Supabase backup — always runs regardless of EmailJS result
+  sb.from('fica_leads').insert({
+    first_name:    fname,
+    last_name:     lname,
+    email:         email,
+    phone:         phone,
+    business:      biz,
+    state:         state,
+    locations:     locs || '1',
+    annual_tips:   tips,
+    annual_credit: Math.round(annual),
+    total_4yr:     Math.round(total4)
+  }).then(function(res) {
+    if (res.error) console.error('Supabase error:', res.error);
+    else console.log('Lead saved to Supabase');
+  });
 
   document.getElementById('nc-lead-form').style.display = 'none';
   document.getElementById('nc-confirm-msg').innerHTML =
